@@ -6,7 +6,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 from CWMA import CWMA
-from DMA import computeScoreNORM
 # left nodes
 num_left = 5
 # right nodes
@@ -67,14 +66,25 @@ def adjust_network(selected_edges):
 
 
 
-def computeScore(selected_edges):
-	cost = 0
+def computeScoreCCCA(selected_edges):
+	score = 0
 	adj_M = nx.to_numpy_matrix(BG)
 
 	for e in selected_edges:
-		cost += adj_M[e]
+		score += adj_M[e]
 
-	print("Score overall QoS with CC:"+str(cost))
+	print("Score overall QoS with CC:"+str(score))
+	return score 
+
+#simply take the minimum of column for each task
+def computeScoreNORM(adjM):
+	print(adjM)
+	print("Score NORM: ", sum(np.apply_along_axis(sumScore, axis=1, arr=adjM)))
+
+
+def sumScore(row):
+	print(row)
+	return np.min(row)
 
 
 if __name__ == '__main__':
@@ -83,6 +93,6 @@ if __name__ == '__main__':
 	computeScoreNORM(adj_M)
 	sel_edges_raw = CWMA(num_left,num_right,adj_M,b_right).match()
 	sel_edges_norm = adjust_network(sel_edges_raw)
-	computeScore(sel_edges_norm)
+	computeScoreCCCA(sel_edges_norm)
 	
 
