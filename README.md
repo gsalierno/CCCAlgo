@@ -1,1 +1,1 @@
-# CCCA: Constrained Cloud Composition Algoithm
+# CCCA: Constrained Cloud Composition Algorithm
