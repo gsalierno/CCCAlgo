@@ -5,11 +5,13 @@ import random
 import numpy as np
 import matplotlib.pyplot as plt
 import math
+import csv
+
 from CWMA import CWMA
 # left nodes
-num_left = 5
+num_left = 1000
 # right nodes
-num_right = 5
+num_right = 1000
 #contstraint on right nodes
 b_right = 1
 #DATA
@@ -78,8 +80,9 @@ def computeScoreCCCA(selected_edges):
 
 #simply take the minimum of column for each task
 def computeScoreNORM(adjM):
-	print(adjM)
-	print("Score NORM: ", sum(np.apply_along_axis(sumScore, axis=1, arr=adjM)))
+	score = sum(np.apply_along_axis(sumScore, axis=1, arr=adjM))
+	print("Score NORM: ", score)
+	return score
 
 
 def sumScore(row):
@@ -87,12 +90,21 @@ def sumScore(row):
 	return np.min(row)
 
 
+
+def writeCSV(score1,score2):
+	with open('result.csv','a', newline='') as csvfile:
+		out = csv.writer(csvfile,delimiter =',')
+		out.writerow([score1,score2])
+
+
 if __name__ == '__main__':
-	build_network()
-	adj_M = prepare_data()
-	computeScoreNORM(adj_M)
-	sel_edges_raw = CWMA(num_left,num_right,adj_M,b_right).match()
-	sel_edges_norm = adjust_network(sel_edges_raw)
-	computeScoreCCCA(sel_edges_norm)
-	
+
+	for i in range(0,99):
+		build_network()
+		adj_M = prepare_data()
+		score1 = computeScoreNORM(adj_M)
+		sel_edges_raw = CWMA(num_left,num_right,adj_M,b_right).match()
+		sel_edges_norm = adjust_network(sel_edges_raw)
+		score2 = computeScoreCCCA(sel_edges_norm)
+		writeCSV(score1,score2)
 
