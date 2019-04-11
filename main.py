@@ -8,7 +8,7 @@ import math
 from CWMA import CWMA
 from DMA import computeScoreNORM
 # left nodes
-num_left = 4
+num_left = 5
 # right nodes
 num_right = 5
 #contstraint on right nodes
@@ -25,7 +25,7 @@ def build_network():
 	left,right = nx.bipartite.sets(BG)
 	# add edges
 	BG.add_weighted_edges_from((u,v,random.randint(1, 10)) for u,v in BG.edges())
-	plot_network(BG.edges)
+	#plot_network(BG.edges)
 
 def plot_network(edges,isMin=False):
 	#layout
@@ -50,7 +50,7 @@ def prepare_data():
 	adj_M = adj_M[num_left:]
 	#replace 0 of adj matrix with inf
 	adj_M[adj_M == 0] = math.inf
-	print(adj_M)
+	#print(adj_M)
 
 	return adj_M
 
@@ -59,9 +59,9 @@ def adjust_network(selected_edges):
 	global BG
 	#normalize edges
 	selected_edges = [(t[1],t[0]+num_left) for t in selected_edges]
-	print("Selected Edges: "+str(selected_edges))
+	#print("Selected Edges: "+str(selected_edges))
 	#print(BG.edges())	
-	plot_network(selected_edges,isMin=True) # selected edges based on matching of the algorithm
+	#plot_network(selected_edges,isMin=True) # selected edges based on matching of the algorithm
 
 	return selected_edges
 

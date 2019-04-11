@@ -5,10 +5,10 @@ import numpy as np
 
 #simply take the minimum of row for each task
 def computeScoreNORM(adjM):
-	scoreNorm = 0
+	print(adjM)
+	print("Score NORM: ", sum(np.apply_along_axis(sumScore, axis=1, arr=adjM)))
 
-	for i in range(adjM.shape[0]):
-		scoreNorm+=adjM[i,np.argmin(adjM[i])]
 
-	print("Score without constraint",scoreNorm)
-
+def sumScore(row):
+	print(row)
+	return np.min(row)
