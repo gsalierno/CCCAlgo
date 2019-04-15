@@ -25,7 +25,7 @@ def build_network():
 	# add nodes
 	left,right = nx.bipartite.sets(BG)
 	# add edges
-	BG.add_weighted_edges_from((u,v,random.randint(1, 10)) for u,v in BG.edges())
+	BG.add_weighted_edges_from((u,v,random.random()) for u,v in BG.edges())
 	#plot_network(BG.edges)
 
 def plot_network(edges,isMin=False):
@@ -80,14 +80,13 @@ def computeScoreCCCA(selected_edges):
 
 #simply take the minimum of column for each task
 def computeScoreNORM(adjM):
-	score = sum(np.apply_along_axis(sumScore, axis=1, arr=adjM))
+	score = sum(np.apply_along_axis(sumScore, axis=0, arr=adjM))
 	print("Score NORM: ", score)
 	return score
 
 
 def sumScore(row):
-	print(row)
-	return np.min(row)
+	return np.min(row) if np.min(row) != math.inf else 0
 
 
 
@@ -99,10 +98,11 @@ def writeCSV(score1,score2):
 
 if __name__ == '__main__':
 
-	for i in range(0,99):
+	for i in range(0,999):
 		build_network()
 		adj_M = prepare_data()
-		score1 = computeScoreNORM(adj_M)
+		m_copy = adj_M.copy()
+		score1 = computeScoreNORM(m_copy)
 		sel_edges_raw = CWMA(num_left,num_right,adj_M,b_right).match()
 		sel_edges_norm = adjust_network(sel_edges_raw)
 		score2 = computeScoreCCCA(sel_edges_norm)

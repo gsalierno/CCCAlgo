@@ -36,14 +36,3 @@ class CWMA:
                     continue #it means that other node has to make a choice before you can
 
         return self.selected_edges
-
-
-
-
-
-
-
-
-
-
-
