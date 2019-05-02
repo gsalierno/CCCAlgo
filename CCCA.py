@@ -2,7 +2,7 @@
 import numpy as np
 import math
 
-class CWMA:
+class CCCA:
 
     def __init__(self, num_left, num_right,adj_M, b_right):
         self.num_left = num_left

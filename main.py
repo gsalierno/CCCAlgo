@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import math
 import csv
 
-from CWMA import CWMA
+from CCCA import CCCA
 # left nodes
 num_left = 1000
 # right nodes
@@ -103,7 +103,7 @@ if __name__ == '__main__':
 		adj_M = prepare_data()
 		m_copy = adj_M.copy()
 		score1 = computeScoreNORM(m_copy)
-		sel_edges_raw = CWMA(num_left,num_right,adj_M,b_right).match()
+		sel_edges_raw = CCCA(num_left,num_right,adj_M,b_right).match()
 		sel_edges_norm = adjust_network(sel_edges_raw)
 		score2 = computeScoreCCCA(sel_edges_norm)
 		writeCSV(score1,score2)
